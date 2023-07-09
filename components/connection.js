@@ -16,3 +16,15 @@ const conn = mysql.createConnection({
     password:'lobalomo',
     database:'fitnessDMBS',
 });
+
+const server = app.listen(3000, () => {
+    console.log('Server running on port 3000');
+});
+
+conn.connect(function(error){
+    if(error){
+        console.log(error);
+    } else{
+        console.log("connected");
+    }
+});
