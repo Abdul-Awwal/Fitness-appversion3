@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Collapsible from 'react-native-collapsible';
+import LottieView from 'lottie-react-native';
 
 const WorkoutsScreen = () => {
     const [activeSections, setActiveSections] = useState([]);
@@ -11,6 +12,7 @@ const WorkoutsScreen = () => {
             content: [
                 { title: 'Workout 1', description: 'Description for Workout 1' },
                 { title: 'Workout 2', description: 'Description for Workout 2' },
+                { title: 'Squats', description: '3 sets of 10 reps' },
                 // Add more workout objects as needed
             ],
         },
@@ -53,12 +55,29 @@ const WorkoutsScreen = () => {
         return (
             <Collapsible collapsed={!activeSections.includes(index)}>
                 <View style={styles.sectionContent}>
-                    {section.content.map((workout, workoutIndex) => (
-                        <View key={workoutIndex} style={styles.workoutContainer}>
-                            <Text style={styles.workoutTitle}>{workout.title}</Text>
-                            <Text style={styles.workoutDescription}>{workout.description}</Text>
-                        </View>
-                    ))}
+                    {section.content.map((workout, workoutIndex) => {
+                        if (workout.title === 'Squats') {
+                            return (
+                                <View key={workoutIndex} style={styles.workoutContainer}>
+                                    <LottieView
+                                        source={require('./assets/squats.json')}
+                                        autoPlay
+                                        loop
+                                        style={styles.animation}
+                                    />
+                                    <Text style={styles.workoutTitle}>{workout.title}</Text>
+                                    <Text style={styles.workoutDescription}>{workout.description}</Text>
+                                </View>
+                            );
+                        } else {
+                            return (
+                                <View key={workoutIndex} style={styles.workoutContainer}>
+                                    <Text style={styles.workoutTitle}>{workout.title}</Text>
+                                    <Text style={styles.workoutDescription}>{workout.description}</Text>
+                                </View>
+                            );
+                        }
+                    })}
                 </View>
             </Collapsible>
         );
@@ -131,6 +150,11 @@ const styles = StyleSheet.create({
     workoutDescription: {
         fontSize: 14,
         color: '#666',
+    },
+    animation: {
+        width: 200,
+        height: 200,
+        marginBottom: 16,
     },
 });
 
