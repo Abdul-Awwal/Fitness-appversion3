@@ -5,7 +5,7 @@ const SplashScreen = ({ navigation }) => {
     useEffect(() => {
         // Simulating a delay before navigating to the next screen
         setTimeout(() => {
-            navigation.replace('Home'); // Replace 'Home' with your desired screen name
+            navigation.replace('Welcome'); // Replace 'Home' with your desired screen name
         }, 3000); // Set the desired duration for the splash screen in milliseconds
     }, []);
 

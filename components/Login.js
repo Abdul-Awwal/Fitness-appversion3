@@ -1,7 +1,23 @@
-import React from 'react';
-import { View, Text, StyleSheet, ImageBackground, TextInput, TouchableOpacity } from 'react-native';
+import React, { useRef } from 'react';
+import { View, Text, StyleSheet, ImageBackground, TextInput, TouchableOpacity, Animated } from 'react-native';
+import { StackActions } from '@react-navigation/native';
 
-const LoginScreen = () => {
+// ...
+
+const LoginScreen = ({ navigation }) => {
+    const buttonScale = useRef(new Animated.Value(1)).current;
+
+    const handleContinuePress = () => {
+        Animated.timing(buttonScale, {
+            toValue: 0.8,
+            duration: 200,
+            useNativeDriver: true,
+        }).start(() => {
+            // Perform any necessary tasks before navigating
+            navigation.dispatch(StackActions.replace('Home'));
+        });
+    };
+
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -23,8 +39,19 @@ const LoginScreen = () => {
                             secureTextEntry
                         />
                     </View>
-                    <TouchableOpacity style={styles.buttonContainer}>
-                        <Text style={styles.buttonText}>Continue</Text>
+                    <TouchableOpacity
+                        style={styles.buttonContainer}
+                        onPress={handleContinuePress}
+                        activeOpacity={0.8}
+                    >
+                        <Animated.Text
+                            style={[
+                                styles.buttonText,
+                                { transform: [{ scale: buttonScale }] },
+                            ]}
+                        >
+                            Continue
+                        </Animated.Text>
                     </TouchableOpacity>
                 </View>
             </ImageBackground>

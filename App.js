@@ -6,6 +6,7 @@ import HomeScreen from './components/HomeScreen'; // Replace with your desired h
 import LoginScreen from './components/Login';
 import SignUpScreen from './components/Register';
 import WorkoutsScreen from './components/Workouts';
+import WelcomeScreen from "./components/welcomescreen";
 
 const Stack = createStackNavigator();
 
@@ -19,7 +20,8 @@ const App = () => {
               options={{ headerShown: false }}
 
           />
-          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Welcome" component={WelcomeScreen} />
+            <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="SignUp" component={SignUpScreen} />
             <Stack.Screen name="Workouts" component={WorkoutsScreen} />
