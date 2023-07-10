@@ -7,18 +7,44 @@ import { StackActions } from '@react-navigation/native';
 const LoginScreen = ({ navigation }) => {
     const buttonScale = useRef(new Animated.Value(1)).current;
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [passwd, setPassword] = useState("");
 
     const handleContinuePress = () => {
-        Animated.timing(buttonScale, {
-            toValue: 0.8,
-            duration: 200,
-            useNativeDriver: true,
-        }).start(() => {
-            // Perform any necessary tasks before navigating
-            navigation.dispatch(StackActions.replace('Home'));
-        });
+        const data = {
+            email,
+            passwd,
+        };
+        fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.text())
+            .then(result => {
+                console.log(result); // Handle the response from the server
+                // Check if the success message is received from the database
+                if (result === 'Login successful') {
+                    Animated.timing(buttonScale, {
+                        toValue: 0.8,
+                        duration: 200,
+                        useNativeDriver: true,
+                    }).start(() => {
+                        // Perform any necessary tasks before navigating
+                        navigation.dispatch(StackActions.replace('Home'));
+                    });
+                } else {
+                    // Handle unsuccessful login
+                    console.log('Login unsuccessful. Please try again.');
+                }
+            })
+
+            .catch(error => {
+                console.error(error);
+            });
     };
+
 
     return (
         <View style={styles.container}>
@@ -40,7 +66,7 @@ const LoginScreen = ({ navigation }) => {
                             placeholder="Password"
                             placeholderTextColor="#fff"
                             secureTextEntry
-                            onChangeText={(password) => setPassword(password)}
+                            onChangeText={(passwd) => setPassword(passwd)}
                         />
                     </View>
                     <TouchableOpacity

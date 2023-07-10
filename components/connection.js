@@ -50,3 +50,30 @@ app.post('/acc', (req, res) => {
         }
     )
 });
+
+app.post('/login', (req, res) => {
+    const email = req.body.email;
+    const password = req.body.passwd;
+    console.log(email);
+    console.log(password);
+
+    // Query to check if the user exists with the provided email and password
+    conn.query(
+        'SELECT * FROM login_table WHERE email = ? AND password = ?',
+        [email, password],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send('Internal Server Error');
+            } else {
+                if (result.length === 1) {
+                    // User found, authentication successful
+                    res.send('Login successful');
+                } else {
+                    // User not found or invalid credentials
+                    res.status(401).send('Invalid email or password');
+                }
+            }
+        }
+    );
+});
