@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, {useRef, useState} from 'react';
 import { View, Text, StyleSheet, ImageBackground, TextInput, TouchableOpacity, Animated } from 'react-native';
 import { StackActions } from '@react-navigation/native';
 
@@ -6,6 +6,8 @@ import { StackActions } from '@react-navigation/native';
 
 const LoginScreen = ({ navigation }) => {
     const buttonScale = useRef(new Animated.Value(1)).current;
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     const handleContinuePress = () => {
         Animated.timing(buttonScale, {
@@ -29,14 +31,16 @@ const LoginScreen = ({ navigation }) => {
                     <View style={styles.inputContainer}>
                         <TextInput
                             style={styles.input}
-                            placeholder="Username/Email"
+                            placeholder="Email"
                             placeholderTextColor="#fff"
+                            onChangeText={(email) => setEmail(email)}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Password"
                             placeholderTextColor="#fff"
                             secureTextEntry
+                            onChangeText={(password) => setPassword(password)}
                         />
                     </View>
                     <TouchableOpacity

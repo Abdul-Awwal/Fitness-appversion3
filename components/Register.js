@@ -1,7 +1,48 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Text, StyleSheet, ImageBackground, TextInput, TouchableOpacity } from 'react-native';
 
 const RegisterScreen = () => {
+
+    const [email, setEmail] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [age, setAge] = useState("");
+    const [weight, setWeight] = useState("");
+    const [height_ft, setHeightF] = useState("");
+    const [height_in, setHeightI] = useState("");
+    const [password, setPassword] = useState("");
+    const [errorText, setText] = useState("");
+
+    const handleRegister = () => {
+        // Create a data object with the user details
+        const data = {
+            email,
+            firstName,
+            lastName,
+            age,
+            weight,
+            heightF: height_ft,
+            heightI: height_in,
+            passwd: password,
+        };
+
+        fetch('http://localhost:3000/acc', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.text())
+            .then(result => {
+                console.log(result); // Handle the response from the server
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -13,29 +54,43 @@ const RegisterScreen = () => {
                     <View style={styles.inputContainer}>
                         <TextInput
                             style={styles.input}
-                            placeholder="Username"
+                            placeholder="First Name"
                             placeholderTextColor="#fff"
+                            onChangeText={(firstName) => setFirstName(firstName)}
                         />
                         <TextInput
                             style={styles.input}
-                            placeholder="Email"
+                            placeholder="Last Name"
                             placeholderTextColor="#fff"
-                            secureTextEntry
+                            onChangeText={(lastName) => setLastName(lastName)}
                         />
                         <TextInput
                             style={styles.input}
-                            placeholder="Password"
+                            placeholder="Age"
                             placeholderTextColor="#fff"
-                            secureTextEntry
+                            onChangeText={(age) => setAge(age)}
+
                         />
                         <TextInput
                             style={styles.input}
-                            placeholder="Confirm Password"
+                            placeholder="Weight"
                             placeholderTextColor="#fff"
-                            secureTextEntry
+                            onChangeText={(weight) => setWeight(weight)}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Height Feet"
+                            placeholderTextColor="#fff"
+                            onChangeText={(heightF) => setHeightF(heightF)}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Height Inches"
+                            placeholderTextColor="#fff"
+                            onChangeText={(heightI) => setHeightI(heightI)}
                         />
                     </View>
-                    <TouchableOpacity style={styles.buttonContainer}>
+                    <TouchableOpacity style={styles.buttonContainer} onPress={handleRegister}>
                         <Text style={styles.buttonText}>Continue</Text>
                     </TouchableOpacity>
                 </View>

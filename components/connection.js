@@ -28,3 +28,25 @@ conn.connect(function(error){
         console.log("connected");
     }
 });
+
+//adds user into db
+app.post('/acc', (req, res) => {
+    const email = req.body.email;
+    const pass = req.body.passwd;
+    const fName = req.body.firstName;
+    const lName = req.body.lastName;
+    const Age = req.body.age;
+    const Weight = req.body.weight;
+    const HeightF = req.body.heightF;
+    const HeightI = req.body.heightI;
+
+    conn.query('INSERT INTO USERS  (fname, lname, Age, Weight, Height_ft, Height_in) values (?, ?, ?, ?, ?, ?)',
+        [fName, lName, Age, Weight, HeightF, HeightI], (err, result) => {
+            if(err) {
+                console.log(err)
+            } else {
+                res.send("Values Inserted");
+            }
+        }
+    )
+});
